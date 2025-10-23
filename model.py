@@ -107,4 +107,9 @@ class CatDogClassifier:
         self.model.save(path)
     
     def load_model(self, path='cat_dog_model.h5'):
-        self.model = tf.keras.models.load_model(path)
+        self.model = tf.keras.models.load_model(path, compile=False)
+        self.model.compile(
+            optimizer=tf.keras.optimizers.Adam(0.001),
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )

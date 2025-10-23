@@ -87,7 +87,7 @@ with col2:
                 st.error("Failed to load image from URL")
 
     if image:
-        st.image(image, caption="Input Image", use_column_width=True)
+        st.image(image, caption="Input Image", use_container_width=True)
         
         # Load and predict with model
         if st.button("🔍 Classify Image", type="primary"):
