@@ -24,9 +24,11 @@ st.markdown("""
 .main { background: linear-gradient(45deg, #ff6b6b, #4ecdc4);background-image: radial-gradient( circle farthest-corner at -24.7% -47.3%,  rgba(6,130,165,1) 0%, rgba(34,48,86,1) 66.8%, rgba(15,23,42,1) 100.2% ); }
 .stTitle { text-align: center; }
 .stMarkdown { text-align: center; }
-.stRadio > div { display: flex; justify-content: center; gap: 30px; }
-.stRadio > div > label { background: rgba(0,0,0,0.9); color: white; padding: 15px 25px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; }
+.stRadio > div { display: flex; justify-content: center; gap: 30px; align-items: center; flex-wrap: wrap; }
+.stRadio > div > label { background: rgba(0,0,0,0.9); color: white; padding: 15px 25px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; margin: 0 auto; }
 .stRadio > div > label:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+.stRadio { text-align: center; }
+.stRadio > div > div { margin: 0 auto; }
 @media (min-width: 768px) { .cat-desktop { margin-left: 250px !important; } }
 @media (max-width: 767px) { .cat-desktop { margin-left: 0px !important; } }
 </style>
@@ -66,8 +68,12 @@ st.components.v1.html(f"""
 
 
 # Enhanced input method selection
-st.markdown("<h3 style='text-align: center; margin-bottom: 0px;'>Choose Input Method</h3>", unsafe_allow_html=True)
-input_method = st.radio("", ["📁 Upload File", "🔗 Image URL"], horizontal=True)
+st.markdown("<h3 style='text-align: center; margin-bottom: 20px;'>Choose Input Method</h3>", unsafe_allow_html=True)
+
+# Center the radio buttons
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    input_method = st.radio("", ["📁 Upload File", "🔗 Image URL"], horizontal=True)
 
 image = None
 
