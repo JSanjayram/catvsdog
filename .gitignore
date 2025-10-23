@@ -1,0 +1,35 @@
+# Dataset - DON'T commit large files
+data/
+*.zip
+PetImages/
+
+# Ignore all dataset files
+**/*.jpg
+**/*.jpeg
+**/*.png
+!/app_images/*.jpg
+!/app_images/*.jpeg
+!/app_images/*.png
+
+# Model files - commit only the trained model
+# cat_dog_model.h5  # Keep this commented to include model
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
