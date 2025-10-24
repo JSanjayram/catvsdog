@@ -6,7 +6,7 @@ from constants import *
 def quick_train():
     """Ultra-fast training for immediate results"""
     
-    print("🚀 Starting FAST training...")
+    print("Starting FAST training...")
     
     # Initialize
     classifier = CatDogClassifier()
@@ -40,7 +40,7 @@ def quick_train():
     
     # Quick evaluation
     val_loss, val_accuracy = classifier.model.evaluate(val_gen, verbose=0)
-    print(f"✅ Final Accuracy: {val_accuracy:.3f}")
+    print(f"Final Accuracy: {val_accuracy:.3f}")
     
     return classifier
 
