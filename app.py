@@ -139,13 +139,33 @@ with col2:
                     # Show confidence breakdown
                     st.subheader("Prediction Confidence")
                     
-                    # Demo confidence breakdown
-                    for i, class_name in enumerate(CLASS_NAMES):
-                        if class_name == predicted_class:
-                            demo_conf = confidence
-                        else:
-                            demo_conf = random.uniform(0.02, 0.15)
-                        st.progress(demo_conf, text=f"{class_name.capitalize()}: {demo_conf:.1%}")
+                    # Get real predictions if model exists
+                    if os.path.exists(MODEL_PATH) and hasattr(classifier, 'model') and classifier.model is not None:
+                        try:
+                            image_processed = image.convert('RGB').resize(IMG_SIZE)
+                            image_array = np.array(image_processed) / 255.0
+                            image_array = np.expand_dims(image_array, axis=0)
+                            predictions = classifier.model.predict(image_array)[0]
+                            
+                            for i, class_name in enumerate(CLASS_NAMES):
+                                confidence_val = float(predictions[i])
+                                st.progress(confidence_val, text=f"{class_name.capitalize()}: {confidence_val:.1%}")
+                        except:
+                            # Fallback to demo confidence
+                            for i, class_name in enumerate(CLASS_NAMES):
+                                if class_name == predicted_class:
+                                    demo_conf = confidence
+                                else:
+                                    demo_conf = random.uniform(0.02, 0.15)
+                                st.progress(demo_conf, text=f"{class_name.capitalize()}: {demo_conf:.1%}")
+                    else:
+                        # Demo confidence breakdown
+                        for i, class_name in enumerate(CLASS_NAMES):
+                            if class_name == predicted_class:
+                                demo_conf = confidence
+                            else:
+                                demo_conf = random.uniform(0.02, 0.15)
+                            st.progress(demo_conf, text=f"{class_name.capitalize()}: {demo_conf:.1%}")
                         
                 except Exception as e:
                     st.error(f"Error during prediction: {str(e)}")
