@@ -7,7 +7,7 @@ import numpy as np
 from model import CatDogClassifier
 from constants import *
 import os
-import random
+
 
 
 
@@ -110,20 +110,14 @@ with col2:
                     # Initialize classifier
                     classifier = CatDogClassifier()
                     
-                    # Try to load and use real model
-                    if os.path.exists(MODEL_PATH):
-                        try:
-                            classifier.load_model(MODEL_PATH)
-                            predicted_class, confidence = classifier.predict(image)
-                            st.success("🤖 Using trained model")
-                        except Exception as e:
-                            st.warning("🎯 Fallback to demo mode due to model compatibility")
-                            predicted_class = random.choice(["cat", "dog"])
-                            confidence = random.uniform(0.75, 0.95)
-                    else:
-                        st.info("🎯 Demo Mode: No model found")
-                        predicted_class = random.choice(["cat", "dog"])
-                        confidence = random.uniform(0.75, 0.95)
+                    # Load and use real trained model only
+                    if not os.path.exists(MODEL_PATH):
+                        st.error("Model not found! Please ensure cat_dog_model.h5 is in the repository.")
+                        st.stop()
+                    
+                    classifier.load_model(MODEL_PATH)
+                    predicted_class, confidence = classifier.predict(image)
+                    st.success("🤖 Using trained model")
                     
                     # Display results
                     col1, col2, col3 = st.columns(3)
@@ -139,33 +133,15 @@ with col2:
                     # Show confidence breakdown
                     st.subheader("Prediction Confidence")
                     
-                    # Get real predictions if model exists
-                    if os.path.exists(MODEL_PATH) and hasattr(classifier, 'model') and classifier.model is not None:
-                        try:
-                            image_processed = image.convert('RGB').resize(IMG_SIZE)
-                            image_array = np.array(image_processed) / 255.0
-                            image_array = np.expand_dims(image_array, axis=0)
-                            predictions = classifier.model.predict(image_array)[0]
-                            
-                            for i, class_name in enumerate(CLASS_NAMES):
-                                confidence_val = float(predictions[i])
-                                st.progress(confidence_val, text=f"{class_name.capitalize()}: {confidence_val:.1%}")
-                        except:
-                            # Fallback to demo confidence
-                            for i, class_name in enumerate(CLASS_NAMES):
-                                if class_name == predicted_class:
-                                    demo_conf = confidence
-                                else:
-                                    demo_conf = random.uniform(0.02, 0.15)
-                                st.progress(demo_conf, text=f"{class_name.capitalize()}: {demo_conf:.1%}")
-                    else:
-                        # Demo confidence breakdown
-                        for i, class_name in enumerate(CLASS_NAMES):
-                            if class_name == predicted_class:
-                                demo_conf = confidence
-                            else:
-                                demo_conf = random.uniform(0.02, 0.15)
-                            st.progress(demo_conf, text=f"{class_name.capitalize()}: {demo_conf:.1%}")
+                    # Get real model predictions
+                    image_processed = image.convert('RGB').resize(IMG_SIZE)
+                    image_array = np.array(image_processed) / 255.0
+                    image_array = np.expand_dims(image_array, axis=0)
+                    predictions = classifier.model.predict(image_array)[0]
+                    
+                    for i, class_name in enumerate(CLASS_NAMES):
+                        confidence_val = float(predictions[i])
+                        st.progress(confidence_val, text=f"{class_name.capitalize()}: {confidence_val:.1%}")
                         
                 except Exception as e:
                     st.error(f"Error during prediction: {str(e)}")
