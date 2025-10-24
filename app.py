@@ -47,7 +47,8 @@ st.markdown("<p style='text-align: center; font-size: 18px; margin-bottom: 30px;
 
 
 if show_animations:
-    st.components.v1.html(f"""
+    if show_animations:
+     st.components.v1.html(f"""
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <div style="display: flex; justify-content: center;">
     <lottie-player id="happy-dog" background="transparent" speed="1" 
@@ -64,6 +65,8 @@ if show_animations:
     document.getElementById('cute-cat').load({json.dumps(cat_data)});
 </script>
 """, height=200)
+    else:
+        st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
 else:
     st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
 
