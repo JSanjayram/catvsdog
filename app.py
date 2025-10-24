@@ -51,8 +51,7 @@ st.markdown("<p style='text-align: center; font-size: 18px; margin-bottom: 30px;
 
 
 if show_animations:
-    if show_animations:
-     st.components.v1.html(f"""
+    st.components.v1.html(f"""
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <div style="display: flex; justify-content: center;">
     <lottie-player id="happy-dog" background="transparent" speed="1" 
@@ -69,8 +68,6 @@ if show_animations:
     document.getElementById('cute-cat').load({json.dumps(cat_data)});
 </script>
 """, height=200)
-    else:
-        st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
 else:
     st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
 
@@ -103,7 +100,7 @@ with col2:
                 st.error("Failed to load image from URL")
 
     if image:
-        st.image(image, caption="Input Image", use_container_width=True)
+        st.image(image, caption="Input Image", width=400)
         
         # Load and predict with model
         if st.button("🔍 Classify Image", type="primary"):
