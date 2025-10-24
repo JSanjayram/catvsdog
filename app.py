@@ -7,6 +7,7 @@ import numpy as np
 from model import CatDogClassifier
 from constants import *
 import os
+import random
 
 
 
@@ -117,12 +118,10 @@ with col2:
                             st.success("🤖 Using trained model")
                         except Exception as e:
                             st.warning("🎯 Fallback to demo mode due to model compatibility")
-                            import random
                             predicted_class = random.choice(["cat", "dog"])
                             confidence = random.uniform(0.75, 0.95)
                     else:
                         st.info("🎯 Demo Mode: No model found")
-                        import random
                         predicted_class = random.choice(["cat", "dog"])
                         confidence = random.uniform(0.75, 0.95)
                     
