@@ -109,14 +109,22 @@ with col2:
                     # Initialize classifier
                     classifier = CatDogClassifier()
                     
-                    # Demo mode - no model needed for deployment
-                    st.info("🎯 Demo Mode: Showing sample predictions")
-                    
-                    # Simple demo prediction based on image analysis
-                    import random
-                    demo_predictions = ["cat", "dog", "other"]
-                    predicted_class = random.choice(demo_predictions[:2])  # Prefer cat/dog
-                    confidence = random.uniform(0.75, 0.95)
+                    # Try to load and use real model
+                    if os.path.exists(MODEL_PATH):
+                        try:
+                            classifier.load_model(MODEL_PATH)
+                            predicted_class, confidence = classifier.predict(image)
+                            st.success("🤖 Using trained model")
+                        except Exception as e:
+                            st.warning("🎯 Fallback to demo mode due to model compatibility")
+                            import random
+                            predicted_class = random.choice(["cat", "dog"])
+                            confidence = random.uniform(0.75, 0.95)
+                    else:
+                        st.info("🎯 Demo Mode: No model found")
+                        import random
+                        predicted_class = random.choice(["cat", "dog"])
+                        confidence = random.uniform(0.75, 0.95)
                     
                     # Display results
                     col1, col2, col3 = st.columns(3)

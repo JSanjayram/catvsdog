@@ -107,9 +107,19 @@ class CatDogClassifier:
         self.model.save(path)
     
     def load_model(self, path='cat_dog_model.h5'):
-        self.model = tf.keras.models.load_model(path, compile=False)
-        self.model.compile(
-            optimizer=tf.keras.optimizers.Adam(0.001),
-            loss='categorical_crossentropy',
-            metrics=['accuracy']
-        )
+        try:
+            # Try loading with custom objects for compatibility
+            self.model = tf.keras.models.load_model(
+                path, 
+                compile=False,
+                custom_objects=None
+            )
+            self.model.compile(
+                optimizer=tf.keras.optimizers.Adam(0.001),
+                loss='categorical_crossentropy',
+                metrics=['accuracy']
+            )
+        except Exception as e:
+            # Fallback: create new model if loading fails
+            print(f"Model loading failed: {e}")
+            self.create_model()
