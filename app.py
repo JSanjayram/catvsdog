@@ -34,13 +34,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Load and display Happy Dog Lottie animation
-with open('Happy Dog.json', 'r') as f:
-    lottie_data = json.load(f)
-
-# Load cute cat animation
-with open('cute-cat (2).json', 'r') as f:
-    cat_data = json.load(f)
+# Load animations if available
+try:
+    with open('Happy Dog.json', 'r') as f:
+        lottie_data = json.load(f)
+    with open('cute-cat (2).json', 'r') as f:
+        cat_data = json.load(f)
+    show_animations = True
+except FileNotFoundError:
+    lottie_data = {}
+    cat_data = {}
+    show_animations = False
 
 st.markdown("<h1 style='text-align: center;'>Cat vs Dog Classifier</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; font-size: 18px; margin-bottom: 30px;'>Upload an image or provide URL to classify if it's a cat, dog, or something else with 90%+ accuracy!</p>", unsafe_allow_html=True)
